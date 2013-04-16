@@ -23,6 +23,13 @@
 				<p:inputText id="apelido" value="#{chatBean.apelido}"
 					 />
 			</p>
+			
+			<h:outputText value="Escolha sua Sala: " />  
+		        <p:selectOneMenu value="#{chatBean.sala}">  
+		            <f:selectItem itemLabel="Select One" itemValue="" />  
+		            <f:selectItems value="#{chatBean.salas}" />  
+		    </p:selectOneMenu>  
+			
 			<p>
 				<p:commandButton value="Entrar no Chat" actionListener="#{chatBean.entrar}" />
 			</p>
