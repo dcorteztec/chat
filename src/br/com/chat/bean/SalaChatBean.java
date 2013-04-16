@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import javax.faces.bean.ApplicationScoped;
+ 
+import javax.faces.bean.ApplicationScoped; 
 import javax.faces.bean.ManagedBean;
    
 @ManagedBean
-@ApplicationScoped 
+@ApplicationScoped
 public class SalaChatBean implements Serializable { 
 	private static final long serialVersionUID = 1L;  
 	private static final DateFormat df = new SimpleDateFormat("hh:mm:ss");
@@ -17,10 +17,16 @@ public class SalaChatBean implements Serializable {
 	
 	  
 	public SalaChatBean() {
-	Date agora = new Date(System.currentTimeMillis());
-	conversa.append("[").append(df.format(agora)).append("]Sala de chat criada!\n");  
+	 
 	}
 
+	
+	public void entrarSala(String sala){
+		Date agora = new Date(System.currentTimeMillis());
+		conversa.append("[").append(df.format(agora)).append("]Bem vindo! a sala de "+ sala +" \n"); 
+	}
+	 
+	
 	public void conversar(String apelido, String texto) {
 	Date agora = new Date();
 	conversa.append("[").append(df.format(agora)).append("] <").append(apelido)
