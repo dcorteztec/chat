@@ -1,10 +1,12 @@
 package br.com.chat.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Room {
+public class Room implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String nome;
 	private StringBuilder conversa;
@@ -12,14 +14,14 @@ public class Room {
 	
 	public Room() {
 		
-	}
+	} 
 	
-    public Room(String nome) {
+    public Room(String nome) { 
 		this.nome=nome;
 	}
 	
 	public Integer getId() {
-		return id;
+		return id; 
 	}
 	public void setId(Integer id) {
 		this.id = id;

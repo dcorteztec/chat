@@ -46,12 +46,12 @@ public class ChatBean implements Serializable {
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/chat/chat.jsf");
 			return "chat.jsf";
 		}
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/chat/sala.jsf");
-		salaChat = new SalaChatBean(room.getNome());
-		
+		room.getUsers().add(users); 
 		salaChat.entrarSala(room, users);
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/chat/sala.jsf");
+		
 
-		return "sala.jsf";
+		return "sala.jsf"; 
 
 	}
 
@@ -108,4 +108,14 @@ public class ChatBean implements Serializable {
 		this.users = users;
 	}
 
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
+	
+	
 }
