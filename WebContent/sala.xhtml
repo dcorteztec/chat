@@ -17,11 +17,11 @@
 	</p>
 
    <h:form id="formChat">
-   <p:panel id="panel" header="Chat" style="margin-bottom:10px;" rendered="#{not empty chatBean.apelido}">
-	<h:panelGroup id="painelChat" rendered="#{not empty chatBean.apelido}">
+   <p:panel id="panel" header="Chat" style="margin-bottom:10px;" rendered="#{not empty chatBean.users.name}">
+	<h:panelGroup id="painelChat" rendered="#{not empty chatBean.users.name}">
 		<p>
 			Bem-vindo ao chat,
-			<h:outputText value="#{chatBean.apelido}" />
+			<h:outputText value="#{chatBean.users.name}" />
 		</p>
 
 		

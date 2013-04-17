@@ -3,18 +3,16 @@ package br.com.chat.bean;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 
 import br.com.chat.model.Room;
+import br.com.chat.model.Users;
 
 @ManagedBean
 @SessionScoped
@@ -22,9 +20,9 @@ public class ChatBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String apelido;
 	private String mensagem;
-	private List<SelectItem> salas = new ArrayList<SelectItem>();
+	private List<Room> salas = new ArrayList<Room>();
 	private String sala;
-	private Map<String, Room> chatRooms = new HashMap<String, Room>();
+	private Users users = new Users();
 	
 	@ManagedProperty(value = "#{salaChatBean}")
 	private SalaChatBean salaChat; 
@@ -34,8 +32,8 @@ public class ChatBean implements Serializable {
 	}
 	
 	public ChatBean() {
-		SelectItem selectItem = new SelectItem("Esporte");
-		SelectItem selectItem2 = new SelectItem("Filme");
+		Room selectItem = new Room("Esporte");
+		Room selectItem2 = new Room("Filme");
 		salas.add(selectItem);
 		salas.add(selectItem2);  
 		
@@ -43,20 +41,21 @@ public class ChatBean implements Serializable {
 
 
 	public String entrar() throws IOException {  
-		if ((apelido == "") || (apelido.isEmpty())) {   
+		if ((users.getName() == "") || (users.getName().isEmpty())) {   
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo", "apelido não pode ser vazio!"));
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/chat/chat.jsf");
 		return "chat.jsf";  
 		}
 		FacesContext.getCurrentInstance().getExternalContext().redirect("/chat/sala.jsf");
-		salaChat.entrarSala(sala);
+		salaChat.entrarSala(sala,users); 
+		
 		return "sala.jsf";  
 		
 	}
 
-	public void enviarMensagem() { 
+	public void enviarMensagem() {  
 		if ((mensagem != "") || (!mensagem.isEmpty())) {
-			salaChat.conversar(apelido, mensagem);
+			salaChat.conversar(users.getName(), mensagem);
 			mensagem = "";
 		}else{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo", "da Mensagem não pode ser vazio!")); 
@@ -83,11 +82,11 @@ public class ChatBean implements Serializable {
 		return salaChat;
 	}
 
-	public List<SelectItem> getSalas() {
+	public List<Room> getSalas() {
 		return salas;
 	}
 
-	public void setSalas(List<SelectItem> salas) {
+	public void setSalas(List<Room> salas) {
 		this.salas = salas;
 	}
 
@@ -97,6 +96,14 @@ public class ChatBean implements Serializable {
 
 	public void setSala(String sala) {
 		this.sala = sala;
+	}
+
+	public Users getUsers() {
+		return users;
+	}
+
+	public void setUsers(Users users) {
+		this.users = users;
 	}
 	
 	
