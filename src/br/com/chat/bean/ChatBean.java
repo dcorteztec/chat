@@ -23,42 +23,44 @@ public class ChatBean implements Serializable {
 	private List<Room> salas = new ArrayList<Room>();
 	private String sala;
 	private Users users = new Users();
-	
+	private Room room = new Room();
+
 	@ManagedProperty(value = "#{salaChatBean}")
-	private SalaChatBean salaChat; 
+	private SalaChatBean salaChat;
 
 	public void setSalaChat(SalaChatBean salaChat) {
 		this.salaChat = salaChat;
 	}
-	
+
 	public ChatBean() {
-		Room selectItem = new Room("Esporte");
-		Room selectItem2 = new Room("Filme");
-		salas.add(selectItem);
-		salas.add(selectItem2);  
-		
-	} 
+		Room roomEsp = new Room("Esporte");
+		Room roomFilm = new Room("Filme");
+		salas.add(roomEsp);
+		salas.add(roomFilm);
 
-
-	public String entrar() throws IOException {  
-		if ((users.getName() == "") || (users.getName().isEmpty())) {   
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo", "apelido não pode ser vazio!"));
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/chat/chat.jsf");
-		return "chat.jsf";  
-		}
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/chat/sala.jsf");
-		salaChat.entrarSala(sala,users); 
-		
-		return "sala.jsf";  
-		
 	}
 
-	public void enviarMensagem() {  
+	public String entrar() throws IOException {
+		if ((users.getName() == "") || (users.getName().isEmpty())) {
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo","apelido não pode ser vazio!"));
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/chat/chat.jsf");
+			return "chat.jsf";
+		}
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/chat/sala.jsf");
+		salaChat = new SalaChatBean(room.getNome());
+		
+		salaChat.entrarSala(room, users);
+
+		return "sala.jsf";
+
+	}
+
+	public void enviarMensagem() {
 		if ((mensagem != "") || (!mensagem.isEmpty())) {
-			salaChat.conversar(users.getName(), mensagem);
+			salaChat.conversar(users.getName(), mensagem,room);
 			mensagem = "";
-		}else{
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Campo", "da Mensagem não pode ser vazio!")); 
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN, "Campo","da Mensagem não pode ser vazio!"));
 		}
 	}
 
@@ -66,7 +68,7 @@ public class ChatBean implements Serializable {
 		return apelido;
 	}
 
-	public void setApelido(String apelido) {  
+	public void setApelido(String apelido) {
 		this.apelido = apelido;
 	}
 
@@ -105,6 +107,5 @@ public class ChatBean implements Serializable {
 	public void setUsers(Users users) {
 		this.users = users;
 	}
-	
-	
+
 }
